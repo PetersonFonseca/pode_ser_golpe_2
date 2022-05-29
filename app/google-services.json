@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "117535784127",
+    "project_id": "pode-ser-golpe-5abf6",
+    "storage_bucket": "pode-ser-golpe-5abf6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:117535784127:android:054b055c3b969ac63ada0a",
+        "android_client_info": {
+          "package_name": "com.petersonfonseca.podesergolpe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "117535784127-s75k5n914tfb5uqer4kpaq76087lqi9v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.petersonfonseca.podesergolpe",
+            "certificate_hash": "01d7ac286167252dacd78eb68f97bca920e011a1"
+          }
+        },
+        {
+          "client_id": "117535784127-8ak58glvvqnev66a6u036d64kc790eo1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPQcYaxTe5VgBM_r1zKM8v7PAIQuK9ZaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "117535784127-8ak58glvvqnev66a6u036d64kc790eo1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
