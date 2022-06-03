@@ -9,11 +9,14 @@ import android.app.AppOpsManager;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,44 +26,48 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
 
 import java.util.List;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
+    Context context;
 
+    //String userDb;
     private static final String TAG = "MainActivity";
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("usuarios");
-
+    DatabaseReference myRef = database.getReference();
+    String userFirebase;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+        // Verifica usuário
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        userFirebase = preferences.getString("userFirebase", "fail");
+        if (userFirebase == "fail") {
+            SharedPreferences preferences2 = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = preferences2.edit();
+            editor.apply();
+            Random aleatorio = new Random();
+            int valor = aleatorio.nextInt(10000) + 1;
+            String valorString = Integer.toString(valor);
+            editor.putString("userFirebase", valorString);
+            editor.apply();
+            myRef.child("usuarios").child(valorString).setValue(false);
 
-            }
-        });
-
-        for (int i = 0; i < numUsuarios; i++) {
-
+            Log.i("SHA2", userFirebase);
+        } else {
+            Log.i("SHA1", userFirebase);
         }
 
-
-        myRef.push().setValue(false);
-
-        //startService(new Intent(getBaseContext(), TestService.class));
         checkIfAppUsageAccess();
 
         AppCenter.start(getApplication(), "133f04d1-ebd5-4508-9a9e-add81cfa0a4e",
@@ -116,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
             requestPermissions(new String[]{Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.RECEIVE_BOOT_COMPLETED, Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE, Manifest.permission.READ_CALL_LOG, Manifest.permission.READ_CONTACTS}, 1000);
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
