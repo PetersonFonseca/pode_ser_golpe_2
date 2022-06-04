@@ -10,7 +10,12 @@ import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.List;
 import java.util.SortedMap;
@@ -29,6 +34,23 @@ public class TestService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+                        Log.d(TAG, token);
+
+                    }
+                });
+
         int delay = 10000;   // delay de 30 seg.
         int interval = 1000 * 60 * 60 * 24;  // intervalo de 5 seg.
         Timer timer = new Timer();

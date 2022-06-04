@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
             editor.putString("userFirebase", valorString);
             editor.apply();
             myRef.child("usuarios").child(valorString).setValue(false);
+            FirebaseMessaging.getInstance().subscribeToTopic(valorString);
 
             Log.i("SHA2", userFirebase);
         } else {
