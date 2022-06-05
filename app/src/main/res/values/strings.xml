@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Pode ser golpe</string>
-    <string name="msg_token_fmt">111</string>
+    <string name="msg_token_fmt">msg_token_fmt</string>
 </resources>

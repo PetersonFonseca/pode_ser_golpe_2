@@ -24,7 +24,7 @@ import java.util.TimerTask;
 import java.util.TreeMap;
 
 public class TestService extends Service {
-    private static final String TAG = "TEXTE";
+    private static final String TAG = "Token firebase mensage";
     Context context;
     @Override
     public IBinder onBind(Intent arg0) {
@@ -45,7 +45,8 @@ public class TestService extends Service {
                         }
 
                         // Get new FCM registration token
-                        String token = task.getResult();
+                        String token = task.getResult();// Log and toast
+                        String msg = getString(R.string.msg_token_fmt, token);
                         Log.d(TAG, token);
 
                     }
@@ -63,6 +64,7 @@ public class TestService extends Service {
         // START_STICKY serve para executar seu serviço até que você pare ele, é reiniciado automaticamente sempre que termina
         return START_STICKY;
     }
+
 
     @Override
     public void onDestroy() {
