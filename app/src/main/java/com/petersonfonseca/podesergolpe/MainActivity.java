@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
             editor.apply();
             myRef.child("usuarios").child(valorString).setValue(false);
             FirebaseMessaging.getInstance().subscribeToTopic(valorString);
+            Log.i("Endereco", valorString);
 
             Log.i("SHA2", userFirebase);
         } else {
