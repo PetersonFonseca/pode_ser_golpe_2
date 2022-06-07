@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference();
-    String userFirebase;
+    String userFirebaseFinal;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,23 +52,23 @@ public class MainActivity extends AppCompatActivity {
 
         // Verifica usuário
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        userFirebase = preferences.getString("userFirebase", "fail");
-        if (userFirebase == "fail") {
+        userFirebaseFinal = preferences.getString("userFirebaseFinal", "fail");
+        if (userFirebaseFinal == "fail") {
             SharedPreferences preferences2 = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = preferences2.edit();
             editor.apply();
             Random aleatorio = new Random();
             int valor = aleatorio.nextInt(10000) + 1;
             String valorString = Integer.toString(valor);
-            editor.putString("userFirebase", valorString);
+            editor.putString("userFirebaseFinal", valorString);
             editor.apply();
             myRef.child("usuarios").child(valorString).setValue(false);
             FirebaseMessaging.getInstance().subscribeToTopic(valorString);
             Log.i("Endereco", valorString);
 
-            Log.i("SHA2", userFirebase);
+            Log.i("SHA2", userFirebaseFinal);
         } else {
-            Log.i("SHA1", userFirebase);
+            Log.i("SHA1", userFirebaseFinal);
         }
 
         checkIfAppUsageAccess();

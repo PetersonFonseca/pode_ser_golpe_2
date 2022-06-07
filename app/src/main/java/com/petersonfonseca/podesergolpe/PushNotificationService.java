@@ -5,9 +5,11 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -23,10 +25,12 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Map;
+import java.util.Random;
 
 public class PushNotificationService extends FirebaseMessagingService {
-    private String CHANNEL_ID = "1";
+    private String CHANNEL_IDDD = "11";
     private String CHANNEL_ID_DOIS = "2";
+    Context context;
 
     @Override
     public void onNewToken (String s) {
@@ -44,30 +48,38 @@ public class PushNotificationService extends FirebaseMessagingService {
         if (remoteMessage.getData().size() > 0){
             Map<String, String> payload = remoteMessage.getData();
             showNotificationSom();
-
+            Log.i("RECEBIDA", "recebida");
         }
     }
 
-    private void showNotificationSom() {
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this, CHANNEL_ID_DOIS)
-                        .setSmallIcon(R.drawable.ic_baseline_add_alert_24)
-                        .setContentTitle("Alerta de Possível golpe.")
-                        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                        .setContentText("Você recebeu uma ligação de um número que não esta na sua agenda e agora abriu o app da Caixa. Cuidado. Pode ser golpe.");
-        Intent resultIntent = new Intent(this, MainActivity.class);
+    private void showNotificationSom() {NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "my_channel11";
+            String Description = "This is my channel11";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel mChannel = new NotificationChannel(CHANNEL_IDDD, name, importance);
+            mChannel.setDescription(Description);
+            mChannel.enableLights(true);
+            mChannel.enableVibration(true);
+            mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+            mChannel.setShowBadge(false);
+            notificationManager.createNotificationChannel(mChannel);
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_IDDD)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("Atenção - Pode ser golpe")
+                .setContentText("A ligação recebida parece ser uma tentativa de golpe. Cuidado.");
+
+        Intent resultIntent = new Intent();
+        resultIntent.setComponent(new ComponentName(this, PushNotificationService.class));
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addParentStack(new ComponentName(this, ShowMessageActivity.class));
         stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(
-                        0,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
-        mBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(0, mBuilder.build());
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(resultPendingIntent);
+        notificationManager.notify(new Random().nextInt(), builder.build());
 
     }
 
