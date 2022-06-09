@@ -70,12 +70,12 @@ public class PushNotificationService extends FirebaseMessagingService {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_IDDD)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("Atenção - Pode ser golpe")
-                .setContentText("A ligação recebida parece ser uma tentativa de golpe. Cuidado.");
+                .setContentText("Momentos atrás você recebeu uma ligação de um numero...");
 
         Intent resultIntent = new Intent();
-        resultIntent.setComponent(new ComponentName(this, PushNotificationService.class));
+        resultIntent.setComponent(new ComponentName(this, ShowCallActivity.class));
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(new ComponentName(this, ShowMessageActivity.class));
+        stackBuilder.addParentStack(new ComponentName(this, ShowCallActivity.class));
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(resultPendingIntent);

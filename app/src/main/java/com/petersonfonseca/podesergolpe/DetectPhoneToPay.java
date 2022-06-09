@@ -54,6 +54,6 @@ public class DetectPhoneToPay extends BroadcastReceiver {
     }
 
     public void verifyApplicationRunning2(Context context) {
-        context.startService(new Intent(context, TestService.class));
+        context.startForegroundService(new Intent(context, TestService.class));
     }
 }

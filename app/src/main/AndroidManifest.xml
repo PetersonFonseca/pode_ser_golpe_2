@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.petersonfonseca.podesergolpe" >
+    package="com.petersonfonseca.podesergolpe">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -22,11 +22,13 @@
         android:roundIcon="@mipmap/ic_pag"
         android:supportsRtl="true"
         android:theme="@style/Theme.PodeSerGolpe">
-
+        <activity
+            android:name=".ShowCallActivity"
+            android:exported="true" />
         <activity
             android:name=".ShowMessageActivity"
             android:exported="true"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -55,7 +57,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".BootCompletedIntentReceiver"
             android:exported="true">
@@ -69,13 +70,9 @@
             android:name=".PushNotificationService"
             android:exported="false">
             <intent-filter>
-                <action
-                    android:name="com.google.firebase.MESSAGING_EVENT">
-                </action>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"></action>
             </intent-filter>
         </service>
-
-
     </application>
 
 </manifest>

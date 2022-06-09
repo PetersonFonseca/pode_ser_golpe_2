@@ -6,8 +6,10 @@ import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -15,6 +17,8 @@ import androidx.annotation.RequiresApi;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.List;
@@ -35,17 +39,20 @@ public class TestService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        int delay = 10000;   // delay de 30 seg.
-        int interval = 1000 * 60 * 60 * 24;  // intervalo de 5 seg.
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
+        TimerTask task3 = new TimerTask() {
             public void run() {
                 Log.i(TAG, "onStartCommand");
                 verifyApplicationRunning();
             }
-        }, delay, interval);
+        };
+        Timer timer3 = new Timer("Timer");
+
+        long delay3 = 10000;
+        timer3.schedule(task3, delay3);
+
+
         // START_STICKY serve para executar seu serviço até que você pare ele, é reiniciado automaticamente sempre que termina
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
 
@@ -80,10 +87,24 @@ public class TestService extends Service {
         String app_caixa = "br.com.gabba.Caixa";
         if (currentApp.intern() == app_caixa) {
             Log.i("NOTFIC", "App caixa aberto");
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            String userFirebaseFinal = preferences.getString("userFirebaseFinal", "fail");
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference();
+            Log.i(TAG, "onStartCommand true");
+            myRef.child("usuarios").child(userFirebaseFinal).setValue(true);
 
+            TimerTask task2 = new TimerTask() {
+                public void run() {
+                    Log.i(TAG, "onStartCommand false");
+                    myRef.child("usuarios").child(userFirebaseFinal).setValue(false);
+                    //getApplicationContext().stopService(new Intent(context, TestService.class));
+                }
+            };
+            Timer timer2 = new Timer("Timer");
 
-
-
+            long delay2 = 15000;
+            timer2.schedule(task2, delay2);
 
         }
 

@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
         if (userFirebaseFinal == "fail") {
             SharedPreferences preferences2 = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = preferences2.edit();
-            editor.apply();
             Random aleatorio = new Random();
             int valor = aleatorio.nextInt(10000) + 1;
             String valorString = Integer.toString(valor);
