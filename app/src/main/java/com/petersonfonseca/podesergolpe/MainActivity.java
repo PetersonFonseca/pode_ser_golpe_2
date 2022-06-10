@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference();
-    String userFirebaseFinal;
+    String userFirebaseFinal7;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,23 +51,24 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Verifica usuário
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        userFirebaseFinal = preferences.getString("userFirebaseFinal", "fail");
-        if (userFirebaseFinal == "fail") {
-            SharedPreferences preferences2 = PreferenceManager.getDefaultSharedPreferences(this);
-            SharedPreferences.Editor editor = preferences2.edit();
+        SharedPreferences preferences7 = PreferenceManager.getDefaultSharedPreferences(this);
+        userFirebaseFinal7 = preferences7.getString("userFirebaseFinal7", "fail");
+        Log.i("Endereco: 1 => ", userFirebaseFinal7);
+        if (userFirebaseFinal7 == "fail") {
+            SharedPreferences preferences3 = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = preferences3.edit();
             Random aleatorio = new Random();
             int valor = aleatorio.nextInt(10000) + 1;
             String valorString = Integer.toString(valor);
-            editor.putString("userFirebaseFinal", valorString);
+            editor.putString("userFirebaseFinal7", valorString);
             editor.apply();
             myRef.child("usuarios").child(valorString).setValue(false);
             FirebaseMessaging.getInstance().subscribeToTopic(valorString);
-            Log.i("Endereco", valorString);
+            Log.i("Endereco: 2 => ", valorString);
 
-            Log.i("SHA2", userFirebaseFinal);
+            Log.i("SHA2 - Usuario criado", userFirebaseFinal7);
         } else {
-            Log.i("SHA1", userFirebaseFinal);
+            Log.i("SHA1 - Usuario ja existia", userFirebaseFinal7);
         }
 
         checkIfAppUsageAccess();

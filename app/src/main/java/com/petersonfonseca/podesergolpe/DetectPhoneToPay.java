@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.SystemClock;
 import android.provider.ContactsContract;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -54,6 +55,9 @@ public class DetectPhoneToPay extends BroadcastReceiver {
     }
 
     public void verifyApplicationRunning2(Context context) {
+        Log.i("SLEEP", "antes");
+        SystemClock.sleep(40000);
+        Log.i("SLEEP", "depois");
         context.startForegroundService(new Intent(context, TestService.class));
     }
 }

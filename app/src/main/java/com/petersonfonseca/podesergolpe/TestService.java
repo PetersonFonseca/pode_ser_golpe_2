@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -28,7 +29,7 @@ import java.util.TimerTask;
 import java.util.TreeMap;
 
 public class TestService extends Service {
-    private static final String TAG = "Token firebase mensage";
+    private static final String TAG = "Token firebase mensage7";
     Context context;
     @Override
     public IBinder onBind(Intent arg0) {
@@ -38,20 +39,7 @@ public class TestService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-        TimerTask task3 = new TimerTask() {
-            public void run() {
-                Log.i(TAG, "onStartCommand");
-                verifyApplicationRunning();
-            }
-        };
-        Timer timer3 = new Timer("Timer");
-
-        long delay3 = 10000;
-        timer3.schedule(task3, delay3);
-
-
-        // START_STICKY serve para executar seu serviço até que você pare ele, é reiniciado automaticamente sempre que termina
+        verifyApplicationRunning();
         return START_NOT_STICKY;
     }
 
@@ -88,23 +76,15 @@ public class TestService extends Service {
         if (currentApp.intern() == app_caixa) {
             Log.i("NOTFIC", "App caixa aberto");
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-            String userFirebaseFinal = preferences.getString("userFirebaseFinal", "fail");
+            String userFirebaseFinal7 = preferences.getString("userFirebaseFinal7", "fail");
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference myRef = database.getReference();
-            Log.i(TAG, "onStartCommand true");
-            myRef.child("usuarios").child(userFirebaseFinal).setValue(true);
-
-            TimerTask task2 = new TimerTask() {
-                public void run() {
-                    Log.i(TAG, "onStartCommand false");
-                    myRef.child("usuarios").child(userFirebaseFinal).setValue(false);
-                    //getApplicationContext().stopService(new Intent(context, TestService.class));
-                }
-            };
-            Timer timer2 = new Timer("Timer");
-
-            long delay2 = 15000;
-            timer2.schedule(task2, delay2);
+            Log.i(TAG, "onStartCommand true!");
+            myRef.child("usuarios").child(userFirebaseFinal7).setValue(true);
+            Log.i("Fire", "ativa firebase");
+            SystemClock.sleep(5000);
+            myRef.child("usuarios").child(userFirebaseFinal7).setValue(false);
+            Log.i("Fire", userFirebaseFinal7);
 
         }
 
