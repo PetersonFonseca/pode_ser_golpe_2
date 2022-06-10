@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ShowCallActivity">
+    tools:context=".ShowCallActivity"
+    android:orientation="vertical">
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -26,6 +27,7 @@
         android:id="@+id/msm_alert"
         android:textColor="@color/orange_caixa"
         android:textAlignment="center"
+        android:text="Segundos atrás você recebeu uma ligação de um número que não estava na sua agenda de contatos e agora abriu o aplicativo da Caixa. Se vai realizar uma transfência cuidado... Pode ser golpe!"
         android:layout_marginTop="25dp"
         android:layout_marginHorizontal="20dp"/>
 
