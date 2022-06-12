@@ -32,7 +32,7 @@ public class ReceiveSms extends BroadcastReceiver {
             SmsMessage[] msgs;
             String msg_from;
             Integer countFromAlert = 0;
-            String[] patterns = {"pix", "regularize", "premio", "receber", "sorteado", "ganhar", "ganhou", "itau", "nubank", "bradesco", "santander", "bloqueio", "bloqueado", "bloqueada", "supensao", "suspencao", "suspençao", "atualize ja", "reconhecer", "cancelar", "cancele", "fraude", "fraudes", "conta", "seguro", "segurança", "invadida", "caixa", "cancelar", "banco", "sequestro", "cef", "ted", "doc", "sequestramos", "filho", "link", "site", "filhos", "dinheiro", "transferencia", "reconhece", "desbloquear"};
+            String[] patterns = {"pix", "http", "https", "www", ".com", ".net", ".gov", "urgente", "reconhece", "transacao", "regularize", "premio", "receber", "sorteado", "ganhar", "ganhou", "itau", "nubank", "bradesco", "santander", "bloqueio", "bloqueado", "bloqueada", "supensao", "suspencao", "suspençao", "atualize ja", "reconhecer", "cancelar", "cancele", "fraude", "fraudes", "conta", "seguro", "segurança", "invadida", "caixa", "cancelar", "banco", "sequestro", "cef", "ted", "doc", "sequestramos", "filho", "link", "site", "filhos", "dinheiro", "transferencia", "reconhece", "desbloquear"};
             if (bundle != null) {
                 try {
                     Object[] pdus = (Object[]) bundle.get("pdus");
@@ -80,7 +80,10 @@ public class ReceiveSms extends BroadcastReceiver {
                             stackBuilder.addNextIntent(resultIntent);
                             PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
                             builder.setContentIntent(resultPendingIntent);
-                            notificationManager.notify(new Random().nextInt(), builder.build());
+                            if(msg_from != "29193" && msg_from != "29194" && msg_from != "29196" && msg_from != "29015" && msg_from != "29111" && msg_from != "29197") {
+                                notificationManager.notify(new Random().nextInt(), builder.build());
+                            }
+
                         }
 
                     }
