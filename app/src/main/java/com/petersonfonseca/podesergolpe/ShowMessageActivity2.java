@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class ShowMessageActivity extends AppCompatActivity {
+public class ShowMessageActivity2 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +17,6 @@ public class ShowMessageActivity extends AppCompatActivity {
 
         Intent msgFromIntent = getIntent();
         String msg_from = msgFromIntent.getStringExtra("numberTelephone");
-        msmAlert.setText("O SMS recebido de: " + msg_from + " contém um link." + " Cuidado, pode ser golpe.");
+        msmAlert.setText("O SMS recebido de: " + msg_from + " contém palavras suspeitas." + " Cuidado, pode ser golpe.");
     }
 }

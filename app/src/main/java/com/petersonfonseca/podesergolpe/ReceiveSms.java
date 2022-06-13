@@ -78,7 +78,7 @@ public class ReceiveSms extends BroadcastReceiver {
                                     .setContentTitle("Atenção - Pode ser golpe")
                                     .setContentText("O SMS recebido de: " + msg_from + " contém palavras suspeitas." + " Cuidado, pode ser golpe.");
 
-                            Intent resultIntent = new Intent(context, ShowMessageActivity.class);
+                            Intent resultIntent = new Intent(context, ShowMessageActivity2.class);
                             TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
                             resultIntent.putExtra("numberTelephone", msg_from);
                             stackBuilder.addParentStack(MainActivity.class);
