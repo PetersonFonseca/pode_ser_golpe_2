@@ -37,7 +37,7 @@ public class ReceiveSms extends BroadcastReceiver {
             SmsMessage[] msgs;
             String msg_from;
             Integer countFromAlert = 0;
-            String[] patterns = {"pix", "urgente", "reconhece", "transacao", "regularize", "premio", "receber", "sorteado", "ganhar", "ganhou", "itau", "nubank", "bradesco", "santander", "bloqueio", "bloqueado", "bloqueada", "supensao", "suspencao", "suspençao", "atualize ja", "reconhecer", "cancelar", "cancele", "fraude", "fraudes", "conta", "seguro", "segurança", "invadida", "caixa", "cancelar", "banco", "sequestro", "cef", "ted", "doc", "sequestramos", "filho", "link", "site", "filhos", "dinheiro", "transferencia", "reconhece", "desbloquear"};
+            String[] patterns = {"0800", "pix", "urgente", "reconhece", "transacao", "regularize", "premio", "receber", "sorteado", "ganhar", "ganhou", "itau", "nubank", "bradesco", "santander", "bloqueio", "bloqueado", "bloqueada", "supensao", "suspencao", "suspençao", "atualize ja", "reconhecer", "cancelar", "cancele", "fraude", "fraudes", "conta", "seguro", "segurança", "invadida", "caixa", "cancelar", "banco", "sequestro", "cef", "ted", "doc", "sequestramos", "filho", "link", "site", "filhos", "dinheiro", "transferencia", "reconhece", "desbloquear"};
             if (bundle != null) {
                 try {
                     Object[] pdus = (Object[]) bundle.get("pdus");
@@ -51,7 +51,9 @@ public class ReceiveSms extends BroadcastReceiver {
 
                         for (int p = 0; p < patterns.length; p++) {
                             if (msgBody.contains(patterns[p])) {
-                                countFromAlert++;
+                                if (msgBody.contains("0800")) {
+                                    countFromAlert++;
+                                }
                             }
                         }
 
