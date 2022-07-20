@@ -11,8 +11,8 @@ android {
         applicationId "com.petersonfonseca.podesergolpe"
         minSdk 26
         targetSdk 31
-        versionCode 9
-        versionName "9.0"
+        versionCode 12
+        versionName "12.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

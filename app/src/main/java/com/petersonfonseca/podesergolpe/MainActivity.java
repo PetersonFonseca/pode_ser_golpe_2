@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         imageViewSeg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = "http.s://www.caixa.gov.br/seguranca";
+                String url = "https://www.caixa.gov.br/seguranca";
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 startActivity(i);

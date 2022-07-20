@@ -21,7 +21,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ReceiveSms extends BroadcastReceiver {
+public class ReceiveSms2 extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -49,20 +49,11 @@ public class ReceiveSms extends BroadcastReceiver {
                         String msgBody = Normalizer.normalize(msgBodyWithCL, Normalizer.Form.NFD);
                         msgBody = msgBody.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
 
-                        List<String> extractedUrls = extractUrls(msgBody);
-
                         for (int p = 0; p < patterns.length; p++) {
                             if (msgBody.contains(patterns[p])) {
-                                for (String url : extractedUrls) {
-                                    if (url.length() > 3) {
-                                        countFromAlert++;
-                                    }
-                                }
-                                if(msgBody.contains("0800")) {
-                                    Log.i("CONTEM", "Contem 0800");
+                                if (msgBody.contains("0800")) {
                                     countFromAlert++;
                                 }
-
                             }
                         }
 
@@ -87,7 +78,7 @@ public class ReceiveSms extends BroadcastReceiver {
                             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                                     .setSmallIcon(R.mipmap.ic_launcher)
                                     .setContentTitle("Atenção - Pode ser golpe")
-                                    .setContentText("O SMS recebido de: " + msg_from + " contém palavras suspeitas." + " Cuidado, pode ser golpe.");
+                                    .setContentText("[[[1]]] O SMS recebido de: " + msg_from + " contém palavras suspeitas." + " Cuidado, pode ser golpe.");
 
                             Intent resultIntent = new Intent(context, ShowMessageActivity2.class);
                             TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
@@ -99,6 +90,50 @@ public class ReceiveSms extends BroadcastReceiver {
                             if(msg_from != "29193" && msg_from != "29194" && msg_from != "29196" && msg_from != "29015" && msg_from != "29111" && msg_from != "29197" && countFromAlert != 0) {
                                 notificationManager.notify(new Random().nextInt(), builder.build());
                             }
+
+                        } else {
+                            Log.i("SEG", "ELSE");
+                            List<String> extractedUrls = extractUrls(msgBody);
+
+                            for (String url : extractedUrls)
+                            {
+                                Log.i("SEG", url);
+                                if (url.length() > 3) {
+                                    int NOTIFICATION_ID = new Random().nextInt();
+                                    NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        CHANNEL_ID = "my_channel_02";
+                                        CharSequence name = "my_channel";
+                                        String Description = "This is my channel";
+                                        int importance = NotificationManager.IMPORTANCE_HIGH;
+                                        NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+                                        mChannel.setDescription(Description);
+                                        mChannel.enableLights(true);
+                                        mChannel.enableVibration(true);
+                                        mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+                                        mChannel.setShowBadge(false);
+                                        notificationManager.createNotificationChannel(mChannel);
+                                    }
+
+                                    NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                                            .setSmallIcon(R.mipmap.ic_launcher)
+                                            .setContentTitle("Atenção - Pode ser golpe")
+                                            .setContentText("[[[2]]] O SMS recebido de: " + msg_from + " contém um link." + " Cuidado, pode ser golpe.");
+
+                                    Intent resultIntent = new Intent(context, ShowMessageActivity.class);
+                                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+                                    resultIntent.putExtra("numberTelephone", msg_from);
+                                    stackBuilder.addParentStack(MainActivity.class);
+                                    stackBuilder.addNextIntent(resultIntent);
+                                    PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                                    builder.setContentIntent(resultPendingIntent);
+                                    if(msg_from != "29193" && msg_from != "29194" && msg_from != "29196" && msg_from != "29015" && msg_from != "29111" && msg_from != "29197") {
+                                        notificationManager.notify(new Random().nextInt(), builder.build());
+                                    }
+                                }
+                            }
+
                         }
                     }
                 } catch (Exception e) {
