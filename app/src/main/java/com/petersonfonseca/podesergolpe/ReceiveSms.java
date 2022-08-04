@@ -96,9 +96,12 @@ public class ReceiveSms extends BroadcastReceiver {
                             stackBuilder.addNextIntent(resultIntent);
                             PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
                             builder.setContentIntent(resultPendingIntent);
-                            if(msg_from != "29193" && msg_from != "29194" && msg_from != "29196" && msg_from != "29015" && msg_from != "29111" && msg_from != "29197" && countFromAlert != 0) {
+                            if(msg_from.intern() != "29193" && msg_from.intern() != "29194" && msg_from.intern() != "29196" && msg_from.intern() != "29015" && msg_from.intern() != "29111" && msg_from.intern() != "29197" && countFromAlert != 0) {
                                 notificationManager.notify(new Random().nextInt(), builder.build());
+                            } else {
+
                             }
+
                         }
                     }
                 } catch (Exception e) {
